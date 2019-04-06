@@ -40,6 +40,12 @@ public class Collection implements java.io.Serializable {
             System.out.println(k + " : " + hashMap.get(k));
         }
     }
+
+    public boolean getFilm(String film){
+        if (hashMap.containsKey(film))
+            return true;
+        return false;
+    }
     public static void main(String[] args) {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("filmCollection.dat")))
         {
@@ -57,7 +63,7 @@ public class Collection implements java.io.Serializable {
         hashMap.put( "Джонни Д.", "Джонни Депп");
         hashMap.put( "Матрица", "Киану Ривз");
         hashMap.put( "Сладкий ноябрь", "Киану Ривз");
-        hashMap.put( "Богемская рапсодия", "Рами Малек");
+        hashMap.put( "Богемская рапсодия","Рами Малек");
     }
 
 
