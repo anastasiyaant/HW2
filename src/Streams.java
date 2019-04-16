@@ -12,23 +12,20 @@ public class Streams {
             "return", "short", "static", "strictfp", "super", "switch",
             "synchronized", "this", "throw", "throws", "transient", "true",
             "try", "void", "volatile", "while" };
-    private static  List<String> keywordsList = new  ArrayList<>();
-    public int keywordsNum = 0;
+    private static  List<String> keywordsList = Arrays.asList(keywords);
+    public static int keywordsNum = 0;
 
-    public Streams(){
-        keywordsList = Arrays.asList(keywords);
-    }
 
-    public void ByteStream(String input_filename, String output_filename){
+    public static void byteStream(String inputFilename, String outputFilename){
         keywordsNum = 0;
-        try (FileInputStream input = new FileInputStream(input_filename);
-             FileOutputStream output = new FileOutputStream(output_filename)) {
+        try (FileInputStream input = new FileInputStream(inputFilename);
+             FileOutputStream output = new FileOutputStream(outputFilename)) {
         int data;
         while ((data=input.read())!=-1){
             String word = "";
             String punct = ".;()[]:!&|?&*^~/";
             while (data!=-1&&(char)data!=' '&&!punct.contains(Character.toString((char)data))){
-                if (Character.isLetter((char)data)){
+                if (Character.isLetter((char)data)||Character.isDigit((char)data)){
                     word=word+(char)data;
                 }
                 data=input.read();
@@ -45,20 +42,21 @@ public class Streams {
         output.write(size, 0, size.length);
         output.flush();
         } catch (IOException e) {
-        throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
 
 
-    public void textStream(String input_filename, String output_filename){
+    public static void textStream(String inputFilename, String outputFilename){
         keywordsNum = 0;
         String s;
-        try (BufferedReader input = new BufferedReader(new FileReader(input_filename));
-            BufferedWriter output = new BufferedWriter( new FileWriter(output_filename))){
+        try (BufferedReader input = new BufferedReader(new FileReader(inputFilename));
+            BufferedWriter output = new BufferedWriter( new FileWriter(outputFilename))){
             while ((s = input.readLine()) != null) {
-                for (String key: keywordsList){
-                    if (s.contains(key)){
-                        output.write(key);
+                String[] stringParts = s.split("[\\s\\,\\(\\)\\.]");
+                for (String part: stringParts){
+                    if (keywordsList.contains(part)){
+                        output.write(part);
                         output.newLine();
                         keywordsNum++;
                     }
@@ -67,14 +65,8 @@ public class Streams {
             output.write("Size is " +keywordsNum);
             output.flush();
         }catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
 
-
-        public static void main(String[] args) {
-        Streams n = new Streams();
-        n.ByteStream("C:\\Users\\Анастасия\\IdeaProjects\\main.java", "C:\\Users\\Анастасия\\IdeaProjects\\result1.java");
-        n.textStream("C:\\Users\\Анастасия\\IdeaProjects\\main.java", "C:\\Users\\Анастасия\\IdeaProjects\\result2.java");
-    }
 }
