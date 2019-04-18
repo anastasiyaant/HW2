@@ -22,18 +22,22 @@ public class Film implements java.io.Serializable{
         this.actors=actors;
     }
 
-    public void addActor(String actor){
+    public boolean addActor(String actor){
         if (actors.contains(actor)) {
             System.out.println("Actor is already in this film");
+            return false;
         }else
         actors.add(actor);
+        return true;
     }
 
-    public void deleteActor(String actor){
+    public boolean deleteActor(String actor){
         if (actors.contains(actor)) {
             actors.remove(actor);
+            return true;
         }else
             System.out.println("Actor is not in this film");
+            return false;
     }
 
     public String getHeader() {

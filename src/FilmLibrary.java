@@ -2,48 +2,53 @@ import java.util.*;
 import java.io.*;
 
 public class FilmLibrary implements java.io.Serializable {
-    ArrayList<Film> films = new ArrayList<>();
+    List<Film> films = new ArrayList<>();
 
-    public void addActor(String film, String actor){
+    public boolean addActor(String film, String actor){
         for (Film findFilm:films)
             if (findFilm.getHeader().equals(film)) {
-                findFilm.addActor(actor);
-                return;
+                return findFilm.addActor(actor);
             }
+
         System.out.println("Film doesn't exist. Firstly add it in collection");
+            return false;
     }
 
 
-    public void deleteActor(String film, String actor){
+    public boolean deleteActor(String film, String actor){
         for (Film findFilm:films){
             if (findFilm.getHeader().equals(film)){
-                findFilm.deleteActor(actor);
-                return;
+                return findFilm.deleteActor(actor);
             }
         }
         System.out.println("Film doesn't exist. Firstly add it in collection");
+        return false;
     }
 
-    public void delFilm(String film){
+    public boolean delFilm(String film){
         for (Film findFilm:films){
             if (findFilm.getHeader().equals(film)){
-                films.remove(findFilm);
-                return;
+                return films.remove(findFilm);
             }
         }
         System.out.println("Film doesn't exist. Firstly add it in collection");
+        return false;
     }
 
-    public void addFilm(String film, Set<String> actors){
+    public boolean addFilm(String film, Set<String> actors){
         if (!films.add(new Film(film, actors))){
             System.out.println("Film is already exist");
+            return false;
         }
+        return true;
     }
 
-    public void addFilm(String film){
+    public boolean  addFilm(String film){
         if (!films.add(new Film(film))){
             System.out.println("Film is already exist");
+            return false;
         }
+        return true;
     }
 
     public Set getActors(String film){
@@ -57,8 +62,8 @@ public class FilmLibrary implements java.io.Serializable {
     }
 
     public void printFilmLibrary(){
-        for (Film f:films){
-            System.out.println(f.getHeader() + " : " + f.getActors());
+        for (Film film:films){
+            System.out.println(film.getHeader() + " : " + film.getActors());
         }
     }
 
